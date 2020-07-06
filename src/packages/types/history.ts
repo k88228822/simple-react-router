@@ -25,6 +25,7 @@ export enum EAction {
 
 }
 
+type FListener = (params: IEventParams) => void;
 
 export interface IHistory {
 
@@ -34,19 +35,19 @@ export interface IHistory {
 
   go: (num: number) => void;
 
-  goBack: ()=>void;
+  goBack: () => void;
 
-  goForward: ()=> void;
+  goForward: () => void;
 
-  push: (pathname: string, state?: State)=>void;
+  push: (pathname: string, state?: State) => void;
 
-  replace: (pathname: string, state?: State)=>void;
+  replace: (pathname: string, state?: State) => void;
 
   // 注册订阅函数
-  listen: (listener: Function)=>Function;
+  listen: (listener: FListener) => Function;
 
   // 注册路由拦截器
-  block: (blocker: ()=>boolean)=>void;
+  block: (blocker: () => boolean) => void;
 }
 
 

@@ -1,6 +1,6 @@
 import {EAction, IEventParams, IHistory, ILocation, State} from "../types/history";
 
-function formatPathName(pathname: string) {
+export function formatPathName(pathname: string) {
   return pathname ?
     pathname.startsWith('/') ? pathname : `/${pathname}`
     : '';
@@ -67,10 +67,14 @@ export function createBrowserHistory(): IHistory {
 
   function push(pathname: string, state?: State) {
     globalHistory.pushState(state, 'name', formatPathName(pathname));
+    const location = parseCurrentLocation();
+    listeners.call({location, action: EAction.Push})
   }
 
   function replace(pathname: string, state?: State) {
-    globalHistory.replaceState(state, 'name', formatPathName(pathname))
+    globalHistory.replaceState(state, 'name', formatPathName(pathname));
+    const location = parseCurrentLocation();
+    listeners.call({location, action: EAction.Replace})
   }
 
   function listen(listener: Function): () => void {
