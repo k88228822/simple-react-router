@@ -4,6 +4,7 @@ import {createBrowserHistory} from "./packages/history";
 import Router from './packages/react-router/Router';
 import RouterContext from "./packages/react-router/RouterContext";
 import Route from "./packages/react-router/Route";
+import Switch from "./packages/react-router/Switch";
 
 function AppContent(){
   const {history} = useContext(RouterContext);
@@ -38,9 +39,12 @@ function App() {
 
   return (
     <Router history={createBrowserHistory()}>
-      <Route path='/' component={AppContent} >
-        <span>hello</span>
-      </Route>
+      <Switch>
+        <Route path='/' component={AppContent} exact={true}/>
+        <Route path='/hello' exact={false}>
+          <span>hello</span>
+        </Route>
+      </Switch>
     </Router>
   );
 }

@@ -43,6 +43,7 @@ export function createBrowserHistory(): IHistory {
 
   window.addEventListener('popstate', () => {
     console.log('start: popstate');
+    applyTx(EAction.Pop);
   });
 
   window.addEventListener('hashchange', () => {
@@ -67,14 +68,12 @@ export function createBrowserHistory(): IHistory {
 
   function push(pathname: string, state?: State) {
     globalHistory.pushState(state, 'name', formatPathName(pathname));
-    const location = parseCurrentLocation();
-    listeners.call({location, action: EAction.Push})
+    applyTx(EAction.Push);
   }
 
   function replace(pathname: string, state?: State) {
     globalHistory.replaceState(state, 'name', formatPathName(pathname));
-    const location = parseCurrentLocation();
-    listeners.call({location, action: EAction.Replace})
+    applyTx(EAction.Replace);
   }
 
   function listen(listener: Function): () => void {
@@ -83,6 +82,11 @@ export function createBrowserHistory(): IHistory {
 
   function block(blocker: () => boolean): () => void {
     return blocks.add(blocker);
+  }
+
+  function applyTx(action:EAction) {
+    const location = parseCurrentLocation();
+    listeners.call({location, action})
   }
 
   return {

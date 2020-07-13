@@ -1,6 +1,5 @@
 import {IHistory, ILocation} from "./history";
-import {ReactNode, ComponentType} from "react";
-import { IRoute } from "./route";
+import {ReactNode} from "react";
 
 export interface IRouterContext {
   history: IHistory;
